@@ -6,41 +6,53 @@ _working with objects_
 
 C++ lets us program with _objects_. We describe objects in C++ by declaring and defining _classes_. We _declare_ our class's structure in a header file, just like in C, and _define_ it (that is, write the code that actually does the work) in a corresponding source code file.
 
-Here is a sample header file <tt>Point.h</tt> that describes an object that represents a point in two-dimensional Euclidean space:
+Here is a sample header file <tt>Point.h</tt> that describes an object that represents a point in three-dimensional Euclidean space:
 
-```c++
-// A 2-dimensional point class!
+<pre>
+// A 3-dimensional point class!
 // Coordinates are double-precision floating point.
+
+#ifndef __point_h
+#define __point_h
+
 class Point {
 
 private:
-double x;
-double y;
+  double x;
+  double y;
+  double z;
 
 public:
-// Constructors
-Point();                      // default constructor
-Point(double x, double y);    // two-argument constructor
+  // Constructors
+  Point();                      // default constructor
+  Point(double x, double y, double z);    // three-argument constructor
 
-// Destructor
-~Point();
+  // Destructor
+  ~Point();
 
-// Mutator methods
-void setX(double newX);
-void setY(double newY);
+  // Mutator methods
+  void setX(double newX);
+  void setY(double newY);
+  void setZ(double newZ);
 
-// Accessor methods
-double getX();
-double getY();
-};
-```
+  // Accessor methods
+  double getX();
+  double getY();
+  double getZ();
+
+  // Other methods
+  double distanceTo(Point newPoint);
+</pre>
 
 We can _instantiate_, or create an instance of, our class anywhere in the rest of our code by calling any of the constructors we have defined:
 
-```c++ 
-Point myPoint;            // Calls Point::Point()
-Point myOtherPoint(5, 3); // Calls two-argument constructor Point::Point(double, double)
-```
+<pre> 
+Point myPoint;               // Calls Point::Point()
+Point myOtherPoint(5, 3, 4); // Calls three-argument constructor Point::Point(double, double, double)
+</pre>
+
+### Compiler
+I have been using CMake as the compiler for this assignment.
 
 ### Your Task
 
@@ -52,17 +64,9 @@ Point myOtherPoint(5, 3); // Calls two-argument constructor Point::Point(double,
 
 You will probably find a square-root function useful for this! The C standard library has one, called <tt>sqrt()</tt>. The function takes a double and returns another double.
 
-If you were programming in C, you would
-```c++
-#include <math.h>
-```
-but in C++ you say
-```c++
-#include <cmath>
-```
-(This means, "Include the C Math header.") And then you are all set.
+If you were programming in C, you would <tt>#include <math.h></tt>, but in C++ you say <tt>#include <cmath></tt>. (This means, "Include the C Math header.") And then you are all set.
 
-4.  Create a new source file <tt>pa1.cpp</tt> and implement two functions:
+4.  Create a new source file <tt>PA1.cpp</tt> and implement two functions:
 
 *   <tt>double computeArea(Point &a, Point &b, Point &c)</tt>
 
@@ -78,9 +82,7 @@ In C++, you don't have to declare all variables at the top of a block; you can i
 
 5.  Compile these sources together like so:
 
-```
-g++ -Wall lab1.cpp Point.cpp -o pa1
-```
+<pre>  g++ -Wall lab1.cc Point.cc -o pa1</pre>
 
 Note:
 *   <tt>g++</tt> is the GNU C++ compiler.
@@ -90,7 +92,7 @@ Note:
 
 CLion uses CMake to create a makefile for your architecture. It uses the directives in the CMakeLists.txt file which can be found in your project's directory. The file looks like this
 
-```
+<pre>
 cmake_minimum_required(VERSION 3.2)
 project(pa1)
 
@@ -98,15 +100,13 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SOURCE_FILES Point.cpp PA1.cpp)
 add_executable(pa1 ${SOURCE_FILES})
-```
+</pre>
 
 For this project, all you need to do to run your Point code on CLion is to list all your *.cpp files as shown above.
 
 6.  Run the generated program:
 
-```
-./pa1
-```
+<pre>  ./pa1</pre>
 
 In CLion, you first have to build (Run-->Build) and then run (Run-->Run 'PA1') your project. Any output will appear in the built-in console.
 
